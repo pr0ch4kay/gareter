@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Реплика · Приморская галерея / Русское искусство XVIII–XX</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #0a0a0a;
+            background-image: radial-gradient(circle at 15% 30%, #141010 0%, #030202 100%);
+            color: #e2dfda;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.45;
+            scroll-behavior: smooth;
+        }
+
+        /* типографика с налётом антикварного */
+        h1, h2, h3, .logo, .hero-title, .work-title, .pull-quote, .site-footer .tagline {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* header — тёмный, лёгкая граница */
+        .site-header {
+            padding: 1.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(3, 2, 2, 0.75);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 600;
+            background: linear-gradient(130deg, #e2cba4 20%, #b5946b 80%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .logo span {
+            color: #ab8a5a;
+            background: none;
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.2rem;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: #ccc5bc;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #e6c394;
+        }
+
+        /* hero */
+        .hero {
+            text-align: center;
+            padding: 4rem 0 5rem;
+            border-bottom: 1px solid rgba(255,255,240,0.05);
+        }
+        .hero-eyebrow {
+            font-size: 0.7rem;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #ba8e4a;
+            margin-bottom: 1rem;
+        }
+        .hero-title {
+            font-size: 4rem;
+            line-height: 1.1;
+            max-width: 1000px;
+            margin: 0 auto 1.2rem;
+            font-weight: 500;
+        }
+        .hero-sub {
+            font-size: 1.1rem;
+            color: #aa9c8b;
+            max-width: 650px;
+            margin: 0 auto;
+        }
+
+        /* сетка с произведениями (стиль галереи) */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .art-card {
+            background: rgba(20, 18, 16, 0.7);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(180, 150, 100, 0.2);
+            border-radius: 2px;
+            transition: transform 0.25s ease, border-color 0.2s;
+            overflow: hidden;
+        }
+        .art-card:hover {
+            border-color: rgba(210, 170, 100, 0.6);
+            transform: translateY(-6px);
+        }
+        .card-img {
+            background: #1f1b17;
+            height: 260px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: #7c6b58;
+            border-bottom: 1px solid rgba(210,170,100,0.2);
+        }
+        .card-content {
+            padding: 1.5rem 1.4rem;
+        }
+        .art-author {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #c9a467;
+            margin-bottom: 0.5rem;
+        }
+        .art-title {
+            font-size: 1.5rem;
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+        .art-date {
+            font-size: 0.8rem;
+            color: #998c7a;
+            margin-bottom: 1rem;
+        }
+        .art-desc {
+            font-size: 0.9rem;
+            line-height: 1.45;
+            color: #d6cdc0;
+        }
+
+        /* полноценная статья-лонгрид */
+        .longread {
+            margin: 5rem 0;
+            border-top: 1px solid rgba(230,210,150,0.2);
+            padding-top: 4rem;
+        }
+        .longread-title {
+            font-size: 2.8rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+        }
+        .longread-meta {
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #b68b48;
+            margin-bottom: 2rem;
+        }
+        .longread-text p {
+            margin-bottom: 1.4rem;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: #ddd2c4;
+        }
+        .pull-quote {
+            font-size: 1.8rem;
+            line-height: 1.2;
+            font-style: italic;
+            border-left: 3px solid #ba8e4a;
+            padding-left: 1.6rem;
+            margin: 2rem 0;
+            color: #eedbba;
+        }
+
+        hr {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(200,170,110,0.4), transparent);
+            margin: 2rem 0;
+        }
+
+        footer {
+            margin-top: 5rem;
+            background: #050302;
+            padding: 2.5rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(140,110,70,0.2);
+            color: #8f806e;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 780px) {
+            .hero-title { font-size: 2.4rem; }
+            .container { padding: 0 1.2rem; }
+            .gallery-grid { gap: 1rem; }
+            .longread-title { font-size: 1.9rem; }
+            .pull-quote { font-size: 1.4rem; }
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container header-inner">
+        <div class="logo">РЕПЛИКА<span> / ПРИМОРСКАЯ ГАЛЕРЕЯ</span></div>
+        <div class="nav-links">
+            <a href="#">ШЕДЕВРЫ</a>
+            <a href="#history">ИСТОРИЯ</a>
+            <a href="#graphics">ГРАФИКА</a>
+            <a href="#sculpture">СКУЛЬПТУРА</a>
+        </div>
+    </div>
+</header>
+
+<main>
+    <div class="container">
+        <div class="hero">
+            <div class="hero-eyebrow">альбом-каталог · 2016</div>
+            <h1 class="hero-title">Русское искусство XVIII — начала XX века<br>из собрания Приморской картинной галереи</h1>
+            <div class="hero-sub">Живопись, графика, скульптура. Уникальная коллекция, сформированная в 1930-е из фондов ГТГ, Русского музея и Эрмитажа.</div>
+        </div>
+
+        <!-- сетка из 6 главных экспонатов (как preview) -->
+        <div class="gallery-grid">
+            <div class="art-card">
+                <div class="card-img">🎨</div>
+                <div class="card-content">
+                    <div class="art-author">Ф.С. Рокотов</div>
+                    <div class="art-title">Портрет князя Д.М. Голицына</div>
+                    <div class="art-date">1773 · холст, масло</div>
+                    <div class="art-desc">Один из лучших образцов юношеской серии. Проникновенность и одухотворенность рокотовского письма.</div>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="card-img">🌊</div>
+                <div class="card-content">
+                    <div class="art-author">И.К. Айвазовский</div>
+                    <div class="art-title">Восход солнца на Чёрном море</div>
+                    <div class="art-date">1850–1860-е · 164×260</div>
+                    <div class="art-desc">Феноменальная память художника: писал без натуры, только «с воздуха». Прозрачность волн + луч солнца.</div>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="card-img">✍️</div>
+                <div class="card-content">
+                    <div class="art-author">В.А. Серов</div>
+                    <div class="art-title">Портрет княгини А.П. Ливен</div>
+                    <div class="art-date">1909 · 161×107</div>
+                    <div class="art-desc">Барственность и внутренняя конфузливость модели передана через тональный контраст и благородство серых тонов.</div>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="card-img">🖤</div>
+                <div class="card-content">
+                    <div class="art-author">М.А. Врубель</div>
+                    <div class="art-title">Демон летящий</div>
+                    <div class="art-date">1890–1891 · чёрная акварель</div>
+                    <div class="art-desc">Иллюстрация к лермонтовскому «Демону». Похищена в 1945, возвращена в 2006 году — одна из самых драматических страниц коллекции.</div>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="card-img">🏺</div>
+                <div class="card-content">
+                    <div class="art-author">А.В. Куприн</div>
+                    <div class="art-title">Натюрморт с опрокинутой вазой</div>
+                    <div class="art-date">1911 · 90×105</div>
+                    <div class="art-desc">«Бубновый валет»: плотная фактура, уплощённый цвет, игра геометрических объёмов.</div>
+                </div>
+            </div>
+            <div class="art-card">
+                <div class="card-img">🗿</div>
+                <div class="card-content">
+                    <div class="art-author">М.П. Попов</div>
+                    <div class="art-title">Клеопатра</div>
+                    <div class="art-date">1891 · мрамор, выс. 176 см</div>
+                    <div class="art-desc">Единственный прижизненный экземпляр. Модель — итальянка Анна Савини, впоследствии жена скульптора.</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- СТАТЬЯ 1 — История галереи / как формировалась коллекция -->
+        <div id="history" class="longread">
+            <h2 class="longread-title">Шедевры на чердаке: как Владивосток получил сокровища из Третьяковки и Эрмитажа</h2>
+            <div class="longread-meta">Из истории ПГКГ · Н. Левданская</div>
+            <div class="longread-text">
+                <p>В 1929 году профессор Александр Половинкин, директор Владивостокского областного музея, добился разрешения Главнауки на создание художественного отдела. Уже в 1931 году состоялась первая выставка из 211 произведений, среди которых были древнерусские иконы, «Портрет А.Ф. Заикина» Тропинина, «Девушка с барашком» Кузнецова и даже «Портрет брата Давида с мандолиной» Марка Шагала. Центральные музеи — ГТГ, Русский музей, Эрмитаж — щедро делились с дальневосточным музеем, понимая его значение для огромного региона.</p>
+                <div class="pull-quote">«Картины повешены так тесно — в 4 яруса, — что осмотр затруднён» — из письма хранителя художественного отдела 1940-х годов.</div>
+                <p>Лишь в 1966 году после публикации «Шедевры на чердаке» в «Советской России» открылась самостоятельная Приморская картинная галерея. Сегодня в её фондах более 8000 единиц хранения, включая полотна Репина, Кандинского, Фалька, уникальную графику и скульптуру. Альбом-каталог 2016 года впервые так полно представляет русскую часть коллекции.</p>
+            </div>
+        </div>
+
+        <!-- СТАТЬЯ 2 — графика + Врубель -->
+        <div id="graphics" class="longread">
+            <h2 class="longread-title">Чёрный Демон, тридцать три богатыря и Репин: сокровища графики</h2>
+            <div class="longread-meta">А. Даценко · коллекция графики ПГКГ</div>
+            <div class="longread-text">
+                <p>Около 70 графических листов. Самый ранний — сангинный «Натурщик» Ивана Угрюмова (1803). Классическая академическая школа, где рисунок начинался с геометрических тел и заканчивался идеальной пластикой обнажённой натуры. Карл Брюллов представлен акварелью «Итальянское семейство» — чистая техника, прозрачные слои, без белил и лака.</p>
+                <p>Особняком стоит драматическая судьба Михаила Врубеля. Его иллюстрация «Демон летящий» чёрной акварелью на картоне была создана для юбилейного собрания Лермонтова (1891). В 1930 году рисунок передали во Владивосток. В 1945-м его похитили с выставки. И только спустя 60 лет, в 2006 году, рисунок обнаружили в Челябинске и вернули в галерею — к 150-летию Врубеля. Так темный «изгнанник рая» вернулся домой.</p>
+                <div class="pull-quote">«Тридцать три богатыря» (акварель, бронзовый порошок, 1899) — эскиз панно для дома Морозова. Фигуры вписаны в горизонтальный свиток, где море едва намечено — вся композиция стремится к сказочной пластике.</div>
+                <p>Илья Репин в галерее — это и карандашный портрет Л.Н. Толстого (1891), и угольный портрет В.А. Серова (1897), и иллюстрация «Пётр Великий на охоте с боярскими детьми» к книге Кутепова. А завершает графический раздел «Беспредметная композиция» Ивана Клюна — супрематический лист начала 1920-х.</p>
+            </div>
+        </div>
+
+        <!-- СТАТЬЯ 3 — скульптура и загадка Клеопатры -->
+        <div id="sculpture" class="longread">
+            <h2 class="longread-title">Мраморная царица, Мефистофель и кони Клодта: скульптурная трилогия</h2>
+            <div class="longread-meta">Н. Левданская · раздел скульптуры</div>
+            <div class="longread-text">
+                <p>Всего семь произведений, но каждое — событие. Два барельефа Фёдора Толстого на сюжеты «Одиссеи» (1820) выполнены в редкой технике гальванопластики. Всего 5 мм рельефа — и целая батальная сцена, где Одиссей истребляет женихов Пенелопы.</p>
+                <p>Марк Антокольский — «Голова Мефистофеля» (бронза). Это этюд к знаменитой статуе из Русского музея. Скульптор искал не просто дьявольское начало, а сплав цинизма, тоски и презрения к миру. Бюст Самуила Полякова из мрамора — редкий заказной портрет банкира и вагоностроителя.</p>
+                <div class="pull-quote">«Клеопатра» Михаила Попова (1891) долго считалась утраченной. В 2008 году исследователь О.А. Кривдина подтвердила: это тот самый мрамор, который стоял в академической мастерской, а моделью была итальянка Анна Савини, ставшая женой автора.</div>
+                <p>Завершают раздел чугунные «Кони на воле» Петра Клодта (каслинский отлив 1915) и бюст композитора Рубинштейна работы Роберта Баха. Они напоминают, что русское камерное литьё позволяло тиражировать шедевры для домашних коллекций.</p>
+            </div>
+        </div>
+
+        <hr>
+        <div style="text-align: center; padding: 2rem 0; color: #746b5e; font-size: 0.8rem;">
+            Альбом-каталог «Русское искусство XVIII — начала XX века. Живопись, графика, скульптура» / Авт.-сост.: Н.А. Левданская, О.А. Батиевская, А.А. Даценко. — Владивосток: ПГКГ, 2016.<br>
+            Приморская государственная картинная галерея — более 8000 единиц хранения, от древнерусских икон до авангарда.
+        </div>
+    </div>
+</main>
+
+<footer>
+    <div class="container">
+        РЕПЛИКА · художественный альманах / на основе коллекции ПГКГ<br>
+        Владивосток · ул. Алеутская, 12
+    </div>
+</footer>
+</body>
+</html>
