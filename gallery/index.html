@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Русское искусство XVIII–XX | ПГКГ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="antialiased">
+
+  <!-- HERO -->
+  <header class="hero-bg h-screen flex items-center justify-center relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#f8f4ee]/20 to-[#f8f4ee]"></div>
+    
+    <div class="relative z-10 text-center px-6 max-w-6xl mx-auto">
+      <div class="inline-flex items-center gap-3 bg-white/10 backdrop-blur-md text-white px-6 py-2 rounded-3xl mb-8 text-sm tracking-[2px] font-medium">
+        <i class="fas fa-gem"></i>
+        ПРИМОРСКАЯ ГОСУДАРСТВЕННАЯ КАРТИННАЯ ГАЛЕРЕЯ
+      </div>
+      
+      <h1 class="serif text-7xl md:text-8xl lg:text-[5.5rem] font-bold tracking-[-2px] text-white leading-none mb-4 drop-shadow-2xl">
+        Русское искусство
+      </h1>
+      <p class="text-4xl md:text-5xl text-white/95 serif mb-8">XVIII — начала XX века</p>
+      
+      <p class="max-w-md mx-auto text-white/80 text-xl mb-12">
+        Живопись • Графика • Скульптура<br>
+        Более 200 шедевров из собрания ПГКГ
+      </p>
+
+      <div class="flex items-center justify-center gap-6">
+        <button onclick="switchSection('painting')" class="px-10 py-5 bg-white text-[#8b6d4c] font-semibold text-lg rounded-3xl hover:scale-105 transition-all shadow-2xl flex items-center gap-3">
+          <i class="fas fa-paint-brush"></i>
+          <span>Смотреть коллекцию</span>
+        </button>
+        <button onclick="document.getElementById('timeline').scrollIntoView({ behavior: 'smooth' })" class="px-10 py-5 border-2 border-white text-white font-semibold text-lg rounded-3xl hover:bg-white/10 transition-all flex items-center gap-3">
+          <i class="fas fa-clock"></i>
+          <span>Хронология</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center text-white/70">
+      <div class="text-xs tracking-[3px] font-medium mb-3">ПРОКРУТИТЕ ДЛЯ ИССЛЕДОВАНИЯ</div>
+      <i class="fas fa-chevron-down text-5xl animate-bounce"></i>
+    </div>
+  </header>
+
+  <!-- NAV / TABS -->
+  <nav class="sticky top-0 bg-white/95 backdrop-blur-lg border-b z-50 shadow-sm">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="flex items-center justify-between py-6">
+        <div class="flex items-center gap-8">
+          <div onclick="switchSection('all')" class="section-tab cursor-pointer flex items-center gap-2 text-xl font-medium active">
+            <i class="fas fa-th"></i><span>Все работы</span>
+          </div>
+          <div onclick="switchSection('painting')" class="section-tab cursor-pointer flex items-center gap-2 text-xl font-medium">
+            <i class="fas fa-paint-brush"></i><span>Живопись</span>
+          </div>
+          <div onclick="switchSection('graphics')" class="section-tab cursor-pointer flex items-center gap-2 text-xl font-medium">
+            <i class="fas fa-drafting-compass"></i><span>Графика</span>
+          </div>
+          <div onclick="switchSection('sculpture')" class="section-tab cursor-pointer flex items-center gap-2 text-xl font-medium">
+            <i class="fas fa-chess-knight"></i><span>Скульптура</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4">
+          <div class="relative w-96">
+            <input id="searchInput" type="text" placeholder="Поиск по художнику, названию..."
+                   class="w-full bg-amber-50 border border-amber-200 focus:border-[#8b6d4c] rounded-3xl py-4 pl-14 pr-6 text-base placeholder:text-gray-400 focus:outline-none">
+            <i class="fas fa-search absolute left-6 top-1/2 -translate-y-1/2 text-[#8b6d4c]"></i>
+          </div>
+          <select id="centuryFilter" onchange="filterCollection()" class="bg-white border border-amber-200 rounded-3xl px-6 py-4 text-base focus:outline-none focus:border-[#8b6d4c]">
+            <option value="all">Все века</option>
+            <option value="18">XVIII век</option>
+            <option value="19">XIX век</option>
+            <option value="20">Начало XX</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ИСТОРИЯ ГАЛЕРЕИ -->
+  <section class="max-w-7xl mx-auto px-6 py-20 bg-white">
+    <div class="grid md:grid-cols-12 gap-16 items-center">
+      <div class="md:col-span-7">
+        <h2 class="serif text-5xl leading-none mb-6">Из истории Приморской государственной картинной галереи</h2>
+        <p class="text-lg leading-relaxed text-gray-700">
+          Уникальная коллекция появилась во Владивостоке ещё в 1929 году благодаря подвижничеству Александра Половинкина. 
+          В 1966 году открылась галерея — единственный художественный музей края.
+        </p>
+      </div>
+      <div class="md:col-span-5">
+        <div class="bg-[#f8f4ee] p-8 rounded-3xl text-center">
+          <img src="https://github.com/pr0ch4kay/photo/raw/main/expopositions.jpg" class="rounded-2xl shadow-2xl mx-auto" alt="Экспозиция">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE — СЛАЙДЕР -->
+  <section id="timeline" class="max-w-7xl mx-auto px-6 py-20 border-t border-b">
+    <div class="flex justify-between items-baseline mb-12">
+      <h2 class="serif text-5xl">Хронология коллекции</h2>
+      <div class="flex items-center gap-4">
+        <button onclick="prevSlide()" class="w-12 h-12 flex items-center justify-center rounded-2xl border border-amber-200 hover:bg-amber-50 text-[#8b6d4c] transition-all"><i class="fas fa-chevron-left text-2xl"></i></button>
+        <button onclick="nextSlide()" class="w-12 h-12 flex items-center justify-center rounded-2xl border border-amber-200 hover:bg-amber-50 text-[#8b6d4c] transition-all"><i class="fas fa-chevron-right text-2xl"></i></button>
+      </div>
+    </div>
+    <div class="relative overflow-hidden rounded-3xl">
+      <div id="sliderTrack" class="flex transition-transform duration-700 ease-out"></div>
+    </div>
+  </section>
+
+  <!-- GALLERY SECTION -->
+  <section id="gallery-section" class="max-w-7xl mx-auto px-6 py-20">
+    <div class="flex justify-between items-center mb-10">
+      <h2 id="sectionTitle" class="serif text-5xl">Живопись</h2>
+      <div class="flex items-center text-sm font-medium gap-6">
+        <button onclick="toggleView('grid')" id="gridBtn" class="flex items-center gap-2 active"><i class="fas fa-th-large"></i> Сетка</button>
+        <button onclick="toggleView('timeline')" id="timelineBtn" class="flex items-center gap-2"><i class="fas fa-timeline"></i> Таймлайн</button>
+      </div>
+    </div>
+
+    <div id="artGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-8"></div>
+    <div id="galleryTimeline" class="hidden">
+      <div id="miniTimeline" class="flex flex-col gap-8"></div>
+    </div>
+  </section>
+
+  <!-- ЖЕМЧУЖИНЫ КОЛЛЕКЦИИ -->
+  <section class="jewels-section max-w-7xl mx-auto px-6 py-24">
+    <div class="text-center mb-16">
+      <h2 class="serif text-5xl tracking-tight">Жемчужины коллекции</h2>
+      <p class="text-xl text-gray-600 mt-4 max-w-2xl mx-auto">Самые ценные и значимые произведения из собрания ПГКГ</p>
+    </div>
+    <div id="jewelsContainer" class="space-y-24"></div>
+  </section>
+    <!-- === ФУТЕР === -->
+    <footer class="bg-[#1f1f1f] text-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
+            
+            <!-- Левый блок -->
+            <div>
+              <h3 class="serif text-3xl mb-4">Приморская государственная<br>картинная галерея</h3>
+              <p class="text-gray-400 leading-relaxed">
+                Единственный художественный музей Приморского края.<br>
+                Основана в 1966 году.
+              </p>
+            </div>
+    
+            <!-- Центральный блок -->
+            <div>
+              <h4 class="uppercase text-sm tracking-widest text-gray-400 mb-4">Контакты</h4>
+              <p class="text-gray-300 mb-1">Адрес:</p>
+              <p class="mb-6">Владивосток, ул. Алеутская, 12</p>
+              
+              <p class="text-gray-300 mb-1">Телефоны:</p>
+              <p class="mb-1">+7 (423) 241-06-10 — экскурсии</p>
+              <p class="mb-1">+7 (423) 241-11-44 — администрация</p>
+              <p>+7 (423) 241-11-95 — охрана</p>
+            </div>
+    
+            <!-- Правый блок -->
+            <div>
+              <h4 class="uppercase text-sm tracking-widest text-gray-400 mb-4">Мы в сети</h4>
+              <a href="https://primgallery.com" target="_blank" class="block text-[#8b6d4c] hover:text-white mb-2">
+                primgallery.com
+              </a>
+              <a href="https://vk.com/primgalleryvl" target="_blank" class="block text-[#8b6d4c] hover:text-white mb-8">
+                VK • Приморская галерея
+              </a>
+              
+              <p class="text-xs text-gray-500 mt-12">
+                © 1966–2026 Приморская государственная картинная галерея<br>
+                Все права защищены
+              </p>
+            </div>
+          </div>
+        </div>
+      </footer>
+
+  <!-- MODAL -->
+  <div onclick="if(event.target.id === 'modal') closeModal()" id="modal" class="hidden fixed inset-0 bg-black/90 z-[9999] flex items-center justify-center p-4 md:p-6">
+    <div onclick="event.stopImmediatePropagation()" class="modal-content bg-white rounded-3xl max-w-6xl w-full overflow-hidden shadow-2xl max-h-[92vh] flex flex-col">
+      <div class="flex justify-end p-6 border-b">
+        <button onclick="closeModal()" class="text-4xl text-gray-400 hover:text-[#8b6d4c]">✕</button>
+      </div>
+      <div class="flex flex-col lg:flex-row flex-1 overflow-hidden">
+        <div class="lg:w-3/5 bg-[#f8f4ee] flex items-center justify-center p-8 lg:p-12">
+          <img id="modalImage" class="max-h-[70vh] w-auto rounded-3xl shadow-2xl object-contain" alt="">
+        </div>
+        <div class="lg:w-2/5 p-8 lg:p-12 flex flex-col">
+          <div id="modalCategoryBadge" class="inline-flex items-center px-4 py-1 bg-amber-100 text-[#8b6d4c] text-xs font-medium rounded-3xl w-fit mb-4"></div>
+          <h2 id="modalTitle" class="serif text-4xl leading-none mb-3"></h2>
+          <p id="modalAuthor" class="text-3xl accent mb-8"></p>
+          
+          <div class="grid grid-cols-3 gap-6 text-sm border-y py-6 mb-8">
+            <div><span class="block text-gray-500 text-xs">ГОД</span><p id="modalYear" class="font-semibold text-xl"></p></div>
+            <div><span class="block text-gray-500 text-xs">ТЕХНИКА</span><p id="modalTechnique" class="font-semibold text-xl"></p></div>
+            <div><span class="block text-gray-500 text-xs">РАЗМЕР</span><p id="modalSize" class="font-semibold text-xl"></p></div>
+          </div>
+
+          <div id="modalDesc" class="flex-1 overflow-auto text-[16px] leading-relaxed text-gray-700 pr-4"></div>
+
+          <div class="pt-8 border-t mt-auto text-xs flex justify-between text-gray-400">
+            <div>ПГКГ • Инв. № <span id="modalInv"></span></div>
+            <a href="#" onclick="alert('Скоро будет ссылка на PDF')" class="flex items-center gap-1 hover:text-[#8b6d4c]">
+              <i class="fas fa-download"></i> Скачать описание
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+           const artworks = [
+      // === ЖИВОПИСЬ ===
+      { id: 1, title: "Портрет князя Д. М. Голицына", author: "Ф. С. Рокотов", year: "1773", century: "18", medium: "painting", technique: "Холст, масло", size: "63 × 53 см", image: "", description: "Гордость коллекции.", inv: "Ж-64" },
+      { id: 3, title: "Портрет графа Ф. Г. Орлова", author: "К.-Л.-И. Христинек", year: "1768", century: "18", medium: "painting", technique: "Холст, масло", size: "88,5 × 72 см", image: "", description: "", inv: "Ж-78" },
+      { id: 8, title: "Портрет П. С. Рунича", author: "В. Л. Боровиковский", year: "1798–1801", century: "18", medium: "painting", technique: "Холст, масло", size: "66,5 × 54,2 см", image: "", description: "", inv: "Ж-9" },
+      { id: 101, title: "Восход солнца на Черном море", author: "И. К. Айвазовский", year: "1850–1860-е", century: "19", medium: "painting", technique: "Холст, масло", size: "164 × 260 см", image: "", description: "", inv: "Ж-29" },
+
+      { id: 42, title: "Портрет императора Александра III", author: "А. И. Корзухин", year: "1883", century: "19", medium: "painting", technique: "Холст, масло", size: "89 × 75 см", image: "", description: "", inv: "Ж-42" },
+      { id: 43, title: "Портрет мальчика", author: "П. А. Брюллов", year: "XIX в.", century: "19", medium: "painting", technique: "Холст, масло", size: "38,5 × 48 см", image: "", description: "", inv: "Ж-43" },
+      { id: 44, title: "Вешние воды", author: "П. П. Винокуров", year: "начало 1900-х", century: "20", medium: "painting", technique: "Холст, масло", size: "163,5 × 217 см", image: "", description: "", inv: "Ж-44" },
+      { id: 45, title: "Окрестности Мюнхена по реке Изар", author: "А. Д. Кившенко", year: "1881", century: "19", medium: "painting", technique: "Холст, масло", size: "61,5 × 115 см", image: "", description: "", inv: "Ж-45" },
+      { id: 46, title: "На Кавказе. Арарат", author: "И. Н. Занковский", year: "XIX в.", century: "19", medium: "painting", technique: "Холст, масло", size: "85 × 135 см", image: "", description: "", inv: "Ж-46" },
+      { id: 47, title: "Крестьянская девочка Тверской губернии", author: "Н. А. Мартынов", year: "1870", century: "19", medium: "painting", technique: "Холст, масло", size: "62 × 52,5 см", image: "", description: "", inv: "Ж-47" },
+      { id: 48, title: "Портрет Н. А. Белоголового", author: "И. Н. Крамской", year: "1884", century: "19", medium: "painting", technique: "Холст, масло", size: "43 × 35 см", image: "", description: "", inv: "Ж-48" },
+      { id: 50, title: "Выздоравливающая", author: "К. В. Лемох", year: "1889", century: "19", medium: "painting", technique: "Холст, масло", size: "67,5 × 83 см", image: "", description: "", inv: "Ж-50" },
+      { id: 51, title: "В еловом лесу. Этюд", author: "И. И. Шишкин", year: "1870-е", century: "19", medium: "painting", technique: "Холст, масло", size: "32,3 × 23,4 см", image: "", description: "", inv: "Ж-51" },
+
+      // === ГРАФИКА ===
+      { id: 201, title: "Итальянское семейство", author: "К. П. Брюллов", year: "1820-е", century: "19", medium: "graphics", technique: "Бумага, акварель", size: "27 × 24,5 см", image: "", description: "", inv: "Г-2" },
+      { id: 202, title: "Солдат времен Кромвеля", author: "К. П. Брюллов", year: "1820-е", century: "19", medium: "graphics", technique: "Бумага, сепия", size: "21,3 × 18,9 см", image: "", description: "", inv: "Г-3" },
+      { id: 203, title: "Рыцарь", author: "А. О. Орловский", year: "первая треть XIX в.", century: "19", medium: "graphics", technique: "Бумага, тушь, перо", size: "20 × 15,1 см", image: "", description: "", inv: "Г-4" },
+      { id: 204, title: "Портрет княгини Ш. Б. Мещерской", author: "П. Ф. Соколов", year: "1827", century: "19", medium: "graphics", technique: "Бумага, акварель", size: "30,5 × 24,2 см", image: "", description: "", inv: "Г-5" },
+      { id: 205, title: "Дама в голубом платье", author: "Неизвестный художник", year: "первая половина XIX в.", century: "19", medium: "graphics", technique: "Бумага, акварель", size: "26,5 × 22 см", image: "", description: "", inv: "Г-6" },
+      { id: 206, title: "Головка девушки", author: "Ф. П. Чумаков", year: "XIX в.", century: "19", medium: "graphics", technique: "Бумага, пастель, белила", size: "29,5 × 23,5 см", image: "", description: "", inv: "Г-7" },
+      { id: 207, title: "Пейзаж", author: "П. А. Нисевин", year: "XIX в.", century: "19", medium: "graphics", technique: "Бумага, акварель", size: "52,5 × 69,5 см", image: "", description: "", inv: "Г-8" },
+      { id: 208, title: "Дорога в дубраве", author: "П. А. Нисевин", year: "1861", century: "19", medium: "graphics", technique: "Картон, акварель, лак", size: "60 × 73 см", image: "", description: "", inv: "Г-9" },
+      { id: 209, title: "Алёнушка", author: "В. М. Васнецов", year: "1881", century: "19", medium: "graphics", technique: "Бумага, тушь, перо", size: "21,5 × 15,2 см", image: "", description: "", inv: "Г-13" },
+      { id: 210, title: "Демон летящий", author: "М. А. Врубель", year: "1890–1891", century: "19", medium: "graphics", technique: "Картон, акварель", size: "24 × 31,5 см", image: "", description: "", inv: "Г-17" },
+
+      // === СКУЛЬПТУРА ===
+      { id: 301, title: "Одиссей убивает женихов Пенелопы", author: "Ф. П. Толстой", year: "1820", century: "19", medium: "sculpture", technique: "Медь, гальванопластика", size: "16,5 × 26,5 см", image: "", description: "", inv: "СК-1" },
+      { id: 302, title: "Меркурий ведет тени убитых женихов в ад", author: "Ф. П. Толстой", year: "1820", century: "19", medium: "sculpture", technique: "Медь, гальванопластика", size: "16,5 × 26,5 см", image: "", description: "", inv: "СК-2" },
+      { id: 303, title: "Портрет С. С. Полякова", author: "М. М. Антокольский", year: "1880-е", century: "19", medium: "sculpture", technique: "Мрамор", size: "В. 56 см", image: "", description: "", inv: "СК-4" },
+      { id: 304, title: "Клеопатра", author: "М. П. Попов", year: "1891", century: "19", medium: "sculpture", technique: "Мрамор", size: "В. 176 см", image: "", description: "", inv: "СК-5" },
+      { id: 305, title: "Портрет А. Г. Рубинштейна", author: "Р. Р. Бах", year: "нач. XX в.", century: "20", medium: "sculpture", technique: "Чугун", size: "В. 31 см", image: "", description: "", inv: "СК-7" }
+    ];
+
+    const placeholderImg = "https://placehold.co/800x600/8b6d4c/ffffff?text=Тут+будет+картинка";
+
+    let currentSection = 'all';
+    let currentView = 'grid';
+    let currentSlide = 0;
+
+    function getImage(art) {
+      return art.image && art.image.trim() !== '' ? art.image : placeholderImg;
+    }
+
+    function switchSection(section) {
+      currentSection = section;
+      document.querySelectorAll('.section-tab').forEach(tab => tab.classList.remove('active'));
+      
+      if (section === 'all') {
+        document.querySelectorAll('.section-tab')[0].classList.add('active');
+        document.getElementById('sectionTitle').textContent = 'Вся коллекция';
+      } else if (section === 'painting') {
+        document.querySelectorAll('.section-tab')[1].classList.add('active');
+        document.getElementById('sectionTitle').innerHTML = 'Живопись <span class="text-base font-sans text-gray-400 ml-3">более 150 работ</span>';
+      } else if (section === 'graphics') {
+        document.querySelectorAll('.section-tab')[2].classList.add('active');
+        document.getElementById('sectionTitle').innerHTML = 'Графика <span class="text-base font-sans text-gray-400 ml-3">около 40 работ</span>';
+      } else if (section === 'sculpture') {
+        document.querySelectorAll('.section-tab')[3].classList.add('active');
+        document.getElementById('sectionTitle').innerHTML = 'Скульптура <span class="text-base font-sans text-gray-400 ml-3">около 20 работ</span>';
+      }
+      filterCollection();
+    }
+
+    function renderGrid(filteredArts) {
+      const grid = document.getElementById('artGrid');
+      grid.innerHTML = '';
+      filteredArts.forEach(art => {
+        const card = document.createElement('div');
+        card.className = `art-card rounded-3xl overflow-hidden cursor-pointer shadow-sm`;
+        card.innerHTML = `
+          <div class="relative">
+            <img src="${getImage(art)}" class="w-full aspect-video object-cover" alt="${art.title}">
+            <div class="absolute top-4 right-4 bg-white/90 text-[#8b6d4c] text-xs font-medium px-3 py-1 rounded-3xl backdrop-blur">
+              ${art.century} в.
+            </div>
+          </div>
+          <div class="p-6">
+            <h3 class="serif text-2xl leading-tight mb-2">${art.title}</h3>
+            <p class="text-[#8b6d4c] font-medium">${art.author}</p>
+            <p class="text-sm text-gray-500 mt-3">${art.year}</p>
+          </div>
+        `;
+        card.onclick = () => showModal(art);
+        grid.appendChild(card);
+      });
+    }
+
+    function renderTimeline(filteredArts) {
+      const track = document.getElementById('sliderTrack');
+      track.innerHTML = '';
+      const sorted = [...filteredArts].sort((a, b) => parseInt(a.year) - parseInt(b.year));
+
+      sorted.forEach(art => {
+        const cardHTML = `
+          <div onclick="showModal(${art.id})" class="min-w-[340px] md:min-w-[400px] px-4 cursor-pointer">
+            <div class="art-card rounded-3xl overflow-hidden shadow-sm">
+              <div class="relative">
+                <img src="${getImage(art)}" class="w-full aspect-video object-cover">
+                <div class="absolute top-4 right-4 bg-white/90 text-[#8b6d4c] text-xs font-medium px-3 py-1 rounded-3xl backdrop-blur">
+                  ${art.century} в.
+                </div>
+              </div>
+              <div class="p-6">
+                <h3 class="serif text-2xl leading-tight mb-2">${art.title}</h3>
+                <p class="text-[#8b6d4c] font-medium">${art.author}</p>
+                <p class="text-sm text-gray-500 mt-3">${art.year}</p>
+              </div>
+            </div>
+          </div>
+        `;
+        track.innerHTML += cardHTML;
+      });
+      currentSlide = 0;
+      updateSliderPosition();
+    }
+
+    function updateSliderPosition() {
+      const track = document.getElementById('sliderTrack');
+      const cardWidth = window.innerWidth < 768 ? 360 : 420;
+      track.style.transform = `translateX(-${currentSlide * cardWidth}px)`;
+    }
+
+    function nextSlide() {
+      const track = document.getElementById('sliderTrack');
+      const total = track.children.length;
+      if (currentSlide < total - 2) {
+        currentSlide++;
+        updateSliderPosition();
+      }
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) {
+        currentSlide--;
+        updateSliderPosition();
+      }
+    }
+
+    function showModal(art) {
+      if (typeof art === 'number') art = artworks.find(a => a.id === art);
+      if (!art) return;
+
+      document.getElementById('modalImage').src = getImage(art);
+      document.getElementById('modalTitle').textContent = art.title;
+      document.getElementById('modalAuthor').textContent = art.author;
+      document.getElementById('modalYear').textContent = art.year;
+      document.getElementById('modalTechnique').textContent = art.technique;
+      document.getElementById('modalSize').textContent = art.size;
+      document.getElementById('modalInv').textContent = art.inv || '—';
+
+      document.getElementById('modalDesc').innerHTML = art.description ? `<p class="mb-6">${art.description}</p>` : '<p class="text-gray-400">Описание будет добавлено позже.</p>';
+
+      const badge = document.getElementById('modalCategoryBadge');
+      if (art.medium === 'painting') badge.innerHTML = `<i class="fas fa-paint-brush mr-1"></i> ЖИВОПИСЬ`;
+      else if (art.medium === 'graphics') badge.innerHTML = `<i class="fas fa-drafting-compass mr-1"></i> ГРАФИКА`;
+      else badge.innerHTML = `<i class="fas fa-chess-knight mr-1"></i> СКУЛЬПТУРА`;
+
+      const modal = document.getElementById('modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      const modal = document.getElementById('modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function filterCollection() {
+      let filtered = artworks;
+      
+      if (currentSection !== 'all') {
+        filtered = filtered.filter(art => art.medium === currentSection);
+      }
+      
+      const centuryFilter = document.getElementById('centuryFilter').value;
+      if (centuryFilter !== 'all') {
+        filtered = filtered.filter(art => art.century === centuryFilter);
+      }
+      
+      const term = document.getElementById('searchInput').value.toLowerCase().trim();
+      if (term) {
+        filtered = filtered.filter(art => 
+          art.title.toLowerCase().includes(term) || 
+          art.author.toLowerCase().includes(term) ||
+          (art.description && art.description.toLowerCase().includes(term))
+        );
+      }
+      
+      if (currentView === 'grid') {
+        renderGrid(filtered);
+        document.getElementById('galleryTimeline').classList.add('hidden');
+        document.getElementById('artGrid').classList.remove('hidden');
+      } else {
+        document.getElementById('galleryTimeline').classList.remove('hidden');
+        document.getElementById('artGrid').classList.add('hidden');
+      }
+      
+      renderTimeline(filtered);
+    }
+
+    function toggleView(view) {
+      currentView = view;
+      document.getElementById('gridBtn').classList.toggle('active', view === 'grid');
+      document.getElementById('timelineBtn').classList.toggle('active', view === 'timeline');
+      filterCollection();
+    }
+
+        // ==================== ЖЕМЧУЖИНЫ КОЛЛЕКЦИИ (сокращённая до 5 лучших) ====================
+        function renderJewels() {
+      const container = document.getElementById('jewelsContainer');
+      container.innerHTML = '';
+
+      const jewels = [
+        { id: 1, title: "Портрет князя Д. М. Голицына", author: "Ф. С. Рокотов", year: "1773", medium: "painting", description: "Гордость коллекции. Одно из самых поэтичных произведений Рокотова." },
+        { id: 101, title: "Восход солнца на Черном море", author: "И. К. Айвазовский", year: "1850–1860-е", medium: "painting", description: "Одна из самых поэтичных морских картин великого мариниста." },
+        { id: 48, title: "Портрет Н. А. Белоголового", author: "И. Н. Крамской", year: "1884", medium: "painting", description: "Один из лучших портретов передвижников." },
+        { id: 210, title: "Демон летящий", author: "М. А. Врубель", year: "1890–1891", medium: "graphics", description: "Гениальная иллюстрация к поэме Лермонтова." },
+        { id: 302, title: "Голова Мефистофеля", author: "М. М. Антокольский", year: "1880-е", medium: "sculpture", description: "Одна из самых известных скульптур Антокольского." }
+      ];
+
+      jewels.forEach((item, index) => {
+        const isReverse = index % 2 === 1;
+        const div = document.createElement('div');
+        div.className = `flex flex-col md:flex-row ${isReverse ? 'md:flex-row-reverse' : ''} gap-12 items-center jewel-block`;
+        div.innerHTML = `
+          <div class="md:w-7/12 flex-shrink-0">
+            <img src="${placeholderImg}" class="w-full rounded-3xl shadow-2xl" alt="${item.title}">
+          </div>
+          <div class="md:w-5/12">
+            <div class="uppercase text-[#8b6d4c] text-sm tracking-widest mb-3">${item.year} • ${item.medium === 'painting' ? 'Живопись' : item.medium === 'graphics' ? 'Графика' : 'Скульптура'}</div>
+            <h3 class="serif text-4xl leading-tight mb-4">${item.title}</h3>
+            <p class="text-2xl accent mb-8">${item.author}</p>
+            <p class="text-lg leading-relaxed text-gray-700">${item.description}</p>
+            <button onclick="showModal(${item.id});" class="mt-10 px-10 py-4 bg-[#8b6d4c] hover:bg-amber-800 text-white rounded-3xl transition-all text-lg font-medium">
+              Подробнее →
+            </button>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // Инициализация
+    window.onload = () => {
+      renderGrid(artworks);
+      renderTimeline(artworks);
+      renderJewels();
+
+      document.getElementById('searchInput').addEventListener('input', () => filterCollection());
+    };
+  </script>
+</body>
+</html>
